@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - RedStore</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+
+    <div class="container">
+        <%- include('partials/header.ejs');-%>
+    </div>
+
+
+
+    <!-- -------------------------Single product details---------------------------- -->
+
+
+    <div class="small-container single-product">
+        <div class="row">
+            <div class="col-2">
+                <img src="<%=sp.img%>" width="100%" height="450px" id="ProductImg">
+
+                <div class="small-img-row">
+                    <div class="small-img-col">
+                        <img src="<%=sp.imgGal[0]%>" width="100%" class="small-img">
+                    </div>
+                    <div class="small-img-col">
+                        <img src="<%=sp.imgGal[1]%>" width="100%" class="small-img">
+                    </div>
+                    <div class="small-img-col">
+                        <img src="<%=sp.imgGal[2]%>" width="100%" class="small-img">
+                    </div>
+                    <div class="small-img-col">
+                        <img src="<%=sp.imgGal[3]%>" width="100%" class="small-img">
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-2">
+                <p><%=sp.name%></p>
+                <h1><%=sp.name%></h1>
+                <h4>$<%=sp.price%></h4>
+                <select>
+                    <option>Select Size</option>
+                    <option>XXL</option>
+                    <option>XL</option>
+                    <option>Large</option>
+                    <option>Medium</option>
+                    <option>Small</option>
+                </select>
+                <input type="number" value="1" min="1" max="<%=sp.qtyInStock%>" onchange="qtySelected()" id="QTY">
+                <a  class="btn" onclick="AddToCart()">Add to Cart</a>
+
+                <h3>Product Details <i class="fa fa-indent"></i></h3>
+                <br>
+                <p><%=sp.des%></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- --------------------------title------------------ -->
+
+    <div class="small-container">
+
+        <div class="row row-2">
+            <h2>Related Products</h2>
+            <p>View more</p>
+        </div>
+
+    </div>
+
+
+    <!-- --------------------------Products------------------ -->
+
+    <div class="small-container">
+
+        <div class="row">
+            <div class="col-4">
+                <img src="/static/images/product-9.jpg">
+                <h4>Red Printed T-Shirt</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$50.00</p>
+            </div>
+            <div class="col-4">
+                <img src="/static/images/product-10.jpg">
+                <h4>Red Printed T-Shirt</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$50.00</p>
+            </div>
+            <div class="col-4">
+                <img src="/static/images/product-11.jpg">
+                <h4>Red Printed T-Shirt</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                </div>
+                <p>$50.00</p>
+            </div>
+            <div class="col-4">
+                <img src="/static/images/product-12.jpg">
+                <h4>Red Printed T-Shirt</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$50.00</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ---------------Footer----------------- -->
+    <%- include('partials/footer.ejs');-%>
+    
+
+
+    <!-- --------------------------------Javascript for product gallery------------------------------ -->
+
+    <script>
+        var ProductImg = document.getElementById("ProductImg");
+        var SmallImg = document.getElementsByClassName("small-img");
+
+        SmallImg[0].onclick = function()
+        {
+            ProductImg.src = SmallImg[0].src;
+        }
+        SmallImg[1].onclick = function()
+        {
+            ProductImg.src = SmallImg[1].src;
+        }
+        SmallImg[2].onclick = function()
+        {
+            ProductImg.src = SmallImg[2].src;
+        }
+        SmallImg[3].onclick = function()
+        {
+            ProductImg.src = SmallImg[3].src;
+        }
+
+    </script>
+
+
+    <!-- --------------------Function to Add product to the Cart------------------ -->
+    <script>
+
+
+        const origin = document.location.origin;
+        const id = document.location.search.split("=")[1];
+        const url = `${origin}/api/product/${id}`;
+        let qty=1;
+        function qtySelected(){
+           qty = document.getElementById('QTY').value;
+        }
+
+
+        const AddToCart = function ()
+        {
+            fetch(url)
+                .then(function(response){
+                    let promise = response.json();
+                    if(response.ok){
+                        promise.then(function(data){
+                                
+                            const oldCartItems = localStorage.getItem('cartItem')?
+                                JSON.parse(localStorage.getItem('cartItem'))
+                                : [];
+                            const filterCartItems = oldCartItems.filter((item)=>{
+                                return item._id != data._id;
+                            })
+                                
+                            let newCartItems = [...filterCartItems, {...data, qty}];
+
+                            localStorage.setItem('cartItem', JSON.stringify(newCartItems));  
+                                
+                            location.href = "http://localhost/cart";
+                                
+                        })
+                    }
+                    else{
+                        promise.then(function(err){
+                            console.log(err);
+                        })
+                    }
+                })
+        }
+
+        
+    </script>
+
+</body>
+
+</html>

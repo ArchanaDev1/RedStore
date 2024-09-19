@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signin | Signup - RedStore</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../static/js/signin.js"></script>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <%- include('partials/header.ejs');-%>
+    </div>
+
+    <!-- ----------------------signin-page-------------- -->
+    <div class="account-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <img src="/static/images/homeImage.png">
+                </div>
+                <div class="col-2">
+                    <div class="form-container">
+                        <div class="form-btn">
+                            <span onclick="login()">Login</span>
+                            <span onclick="register()">Register</span>
+                            <hr id="Indicator">
+                        </div>
+                        <form id="LoginForm" onsubmit="return handleSubmitSignin()">
+                            <p id="errMsgSignin" style="color: red; font-size: 12px;"></p>
+                            <input 
+                            required
+                            type="email" 
+                            name="email"
+                            placeholder="Email" 
+                            oninput="validate(this)"
+                            />
+                            <input 
+                            required
+                            type="password"
+                            name="password" 
+                            placeholder="Password"
+                            oninput="validate(this)"
+                            />
+                            <button type="submit" class="btn">Login</button>
+                            <a href="">Forgot password</a>
+                        </form>
+
+                        <form id="RegForm" onsubmit="return handleSubmitRegister()">
+                            <p id="errMsgRegister" style="color: red; font-size: 12px;"></p>
+                            <input 
+                            required
+                            type="text"
+                            name="username" 
+                            placeholder="Username"
+                            oninput="validate(this)"
+                            />
+                            <input 
+                            required
+                            type="email"
+                            name="email" 
+                            placeholder="Email"
+                            oninput="validate(this)"
+                            />
+                            <input 
+                            required
+                            type="password"
+                            name="password" 
+                            placeholder="Password"
+                            oninput="validate(this)"
+                            />
+                            <input 
+                            required
+                            type="password"
+                            name="confirmPassword" 
+                            placeholder="Confirm Password"
+                            oninput="validate(this)"
+                            />
+                            <button type="submit" class="btn">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    <!-- ---------------Footer----------------- -->
+    <%- include('partials/footer.ejs');-%>
+    
+
+<!-- ----------------Javasript for toggle form-------------------- -->
+    <script>
+
+        var LoginForm = document.getElementById("LoginForm");
+        var RegForm = document.getElementById("RegForm");
+        var Indicator = document.getElementById("Indicator");
+
+        function register(){
+            RegForm.style.transform = "translateX(0px)";
+            LoginForm.style.transform = "translateX(0px)";
+            Indicator.style.transform = "translateX(100px)";
+        }
+
+        function login(){
+            RegForm.style.transform = "translateX(300px)";
+            LoginForm.style.transform = "translateX(300px)";
+            Indicator.style.transform = "translateX(0px)";
+
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>

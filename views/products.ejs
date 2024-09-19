@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - RedStore</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+
+    <div class="container">
+        <%- include('partials/header.ejs');-%>
+    </div>
+
+    <div class="small-container">
+
+        <div class="row row-2">
+            <h2>All Products</h2>
+            <select>
+                <option>Default Sort</option>
+                <option>Sort by price</option>
+                <option>Sort by popularity</option>
+                <option>Sort by rating</option>
+                <option>Sort by sale</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <% productsArray.find((item)=> {%>
+
+                <div class="col-4">
+                    <a href="/product/<%=item._id%>?id=<%=item._id%>">
+                        <img src="<%=item.img%>">
+                    </a>
+                    <a href="/product/<%=item._id%>?id=<%=item._id%>">
+                        <h4><%=item.name%></h4>
+                    </a>
+                    <div class="rating">
+                        
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                        <i class="fa fa-star-o"></i>
+                   
+                    </div>
+                    <p>$<%=item.price%></p>
+                </div>
+
+            <%})%>
+            
+        </div>
+        
+        <div class="page-btn">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>&#8594;</span>
+        </div>
+
+    </div>
+
+    <!-- ---------------Footer----------------- -->
+    <%- include('partials/footer.ejs');-%>
+    
+</body>
+
+</html>

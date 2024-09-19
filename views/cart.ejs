@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - RedStore</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+
+    <div class="container">
+        <%- include('partials/header.ejs');-%>
+    </div>
+
+    <!-- ------------------cart item details--------------- -->
+    <div class="small-container cart-page">
+
+        <table id="Cart"> </table>
+
+        <div class="total-price">
+            <table id="Total"> </table>
+        </div>
+        <div id="place-order">
+
+        </div>
+    </div>
+    <!-- ---------------Footer----------------- -->
+    <%- include('partials/footer.ejs');-%>
+      
+<!-- ---------JavaScript for Retrieving Cart Items from Local Storage---------- -->
+        <script>
+            const itemInCart = localStorage.getItem('cartItem') ? JSON.parse(localStorage.getItem('cartItem')) : [];
+
+            const user = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+
+            const cart = document.querySelector("#Cart");
+            let totalPrice = 0;
+
+            function createCartItem(item) {
+                return `<tr>
+                            <td>
+                                <div class="cart-info">
+                                    <img src="${item.img}">
+                                    <div>
+                                        <p>${item.name}</p>
+                                        <small>Price: ${item.price}</small>
+                                        <br>
+                                        <a id="${item._id}" onclick="deleteItem(this)">Remove</a> 
+                                    </div>
+                                </div>
+                            </td>
+                            <td><input type="number" value="${item.qty}"></td>
+                            <td>$${item.price * item.qty}</td>
+                        </tr>`;
+            }
+
+           if(itemInCart.length>0){
+                const cartHead = document.createElement('tr');
+                cartHead.innerHTML = ` <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Subtotal</th>
+                                        </tr>`;
+                cart.appendChild(cartHead);    
+           }
+
+            for(i=0;i<itemInCart.length;i++){
+                const cartItemHolder = document.createElement('tr');
+                cartItemHolder.innerHTML = createCartItem(itemInCart[i]);
+                cart.appendChild(cartItemHolder);
+                totalPrice += itemInCart[i].price * itemInCart[i].qty;
+            }
+
+            if(itemInCart.length>0){
+                const Total = document.getElementById('Total');
+                Total.innerHTML = `<tr>
+                                        <td>Subtotal</td>
+                                        <td>$${totalPrice}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tax</td>
+                                        <td>$${35.00}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>$${totalPrice + 35.00}</td>
+                                    </tr>`;
+                let placeOrder = document.getElementById('place-order');
+                placeOrder.innerHTML = `
+                                        ${user
+                                        ?
+                                        `<a href="/shipping/${user.token}" class="btn btn-place-order">Proceed To Checkout</a>`
+                                        :
+                                        `<a href="/signin?redirect=shipping" class="btn btn-place-order">Proceed To Checkout</a>`
+                                        }
+                                        `;
+            }
+            else{
+                const cartPage = document.getElementById('Cart')
+                cartPage.innerHTML = `<p style="text-align:center; margin:100px">Cart is empty</p>`
+            }
+
+            // *********************Function to Remove Items from Cart******************* 
+            function deleteItem(e){
+                let id=e.id;
+                const filterCartItem=itemInCart.filter(function(item){
+                    if(item._id!=id){
+                        return item;
+                    }
+                })
+                localStorage.setItem("cartItem",JSON.stringify(filterCartItem));
+                location.reload();
+            }
+        </script>
+
+</body>
+
+</html>
